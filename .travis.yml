@@ -35,6 +35,8 @@ matrix:
       env: TEST_SUITE=production
     - python: "2.7"
       env: TEST_SUITE=production
+    - python: "3.4"
+      env: TEST_SUITE=danger
 # command to run tests
 script:
   - unset GEM_PATH
