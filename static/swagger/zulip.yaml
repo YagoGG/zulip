@@ -306,7 +306,7 @@ paths:
       - basicAuth: []
       responses:
         '200':
-          description: The response from a successful call
+          description: Success.
           schema:
             type: object
             required:
