@@ -292,6 +292,55 @@ paths:
           schema:
             $ref: '#/definitions/EventsResponse'
 
+  /users:
+    get:
+      description: Fetch all the users registered in this realm.
+      operationId: zerver.views.users.get_members_backend
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: Success.
+          schema:
+            allOf:
+            - $ref: '#/definitions/JsonSuccess'
+            - description: |
+                           `members` is an array with all the users
+                           registered in the realm, including the one making
+                           the query.
+                           Every user follows SOME FORMAT.
+            - properties:
+                members:
+                  type: array
+                  items:
+                    $ref: '#/definitions/FullUser'
+    post:
+      description: Create a new user.
+      operationId: zerver.views.users.create_user_backend
+      parameters:
+      - name: email
+        in: formData
+        description: New user's email address.
+        required: true
+        type: string
+      - name: password
+        in: formData
+        description: Password for the new user's account.
+        required: true
+        type: string
+      - name: full_name
+        in: formData
+        description: New users's full name.
+        required: true
+        type: string
+      - name: short_name
+        in: formData
+        description: 
+        required: true
+        type: string
+      security:
+        - basicAuth: []
+
   /users/{user}/presence:
     get:
       description: Get presence data for another user.
@@ -980,6 +1029,10 @@ definitions:
       invite_only:
         type: boolean
 
+  # The API right now produces two different types of user object, depending on
+  # the endpoint: one with less information (the "user" definition), and other
+  # with more data (the "FullUser" definition).
+
   user:
     type: object
     required:
@@ -1000,6 +1053,15 @@ definitions:
         type: string
       is_bot:
         type: boolean
+
+  FullUser:
+    allOf:
+    - $ref: '#/definitions/user'
+    - properties:
+        is_active:
+          type: boolean
+        avatar_url:
+          type: string
 
   #####
   # definitions used by /events
