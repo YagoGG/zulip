@@ -17,10 +17,10 @@ def bulk_create_users(realm, users_raw, bot_type=None, tos_version=None, timezon
 
     # Now create user_profiles
     profiles_to_create = []  # type: List[UserProfile]
-    for (email, full_name, short_name, active) in users:
+    for (email, full_name, active) in users:
         profile = create_user_profile(realm, email,
                                       initial_password(email), active, bot_type,
-                                      full_name, short_name, None, False, tos_version,
+                                      full_name, None, False, tos_version,
                                       timezone, tutorial_status=UserProfile.TUTORIAL_FINISHED,
                                       enter_sends=True)
         profiles_to_create.append(profile)
@@ -38,7 +38,7 @@ def bulk_create_users(realm, users_raw, bot_type=None, tos_version=None, timezon
         profiles_by_id[profile.id] = profile
 
     recipients_to_create = []  # type: List[Recipient]
-    for (email, full_name, short_name, active) in users:
+    for (email, full_name, active) in users:
         recipients_to_create.append(Recipient(type_id=profiles_by_email[email].id,
                                               type=Recipient.PERSONAL))
     Recipient.objects.bulk_create(recipients_to_create)
@@ -48,7 +48,7 @@ def bulk_create_users(realm, users_raw, bot_type=None, tos_version=None, timezon
         recipients_by_email[profiles_by_id[recipient.type_id].email] = recipient
 
     subscriptions_to_create = []  # type: List[Subscription]
-    for (email, full_name, short_name, active) in users:
+    for (email, full_name, active) in users:
         subscriptions_to_create.append(
             Subscription(user_profile_id=profiles_by_email[email].id,
                          recipient=recipients_by_email[email]))

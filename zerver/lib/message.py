@@ -74,7 +74,6 @@ class MessageDict(object):
             sender_realm_id = message.sender.realm_id,
             sender_realm_str = message.sender.realm.string_id,
             sender_full_name = message.sender.full_name,
-            sender_short_name = message.sender.short_name,
             sender_avatar_source = message.sender.avatar_source,
             sender_avatar_version = message.sender.avatar_version,
             sender_is_mirror_dummy = message.sender.is_mirror_dummy,
@@ -108,7 +107,6 @@ class MessageDict(object):
             sender_realm_id = row['sender__realm__id'],
             sender_realm_str = row['sender__realm__string_id'],
             sender_full_name = row['sender__full_name'],
-            sender_short_name = row['sender__short_name'],
             sender_avatar_source = row['sender__avatar_source'],
             sender_avatar_version = row['sender__avatar_version'],
             sender_is_mirror_dummy = row['sender__is_mirror_dummy'],
@@ -136,7 +134,6 @@ class MessageDict(object):
             sender_realm_id,
             sender_realm_str,
             sender_full_name,
-            sender_short_name,
             sender_avatar_source,
             sender_avatar_version,
             sender_is_mirror_dummy,
@@ -171,7 +168,6 @@ class MessageDict(object):
                 # someone and his self, preserving ordering
                 recip = {'email': sender_email,
                          'full_name': sender_full_name,
-                         'short_name': sender_short_name,
                          'id': sender_id,
                          'is_mirror_dummy': sender_is_mirror_dummy}
                 if recip['email'] < display_recipient[0]['email']:
@@ -183,7 +179,6 @@ class MessageDict(object):
             id                = message_id,
             sender_email      = sender_email,
             sender_full_name  = sender_full_name,
-            sender_short_name = sender_short_name,
             sender_realm_str  = sender_realm_str,
             sender_id         = sender_id,
             type              = display_type,

@@ -18,7 +18,7 @@ class TestRealmAuditLog(ZulipTestCase):
         # type: () -> None
         realm = get_realm('zulip')
         now = timezone_now()
-        user = do_create_user('email', 'password', realm, 'full_name', 'short_name')
+        user = do_create_user('email', 'password', realm, 'full_name')
         do_deactivate_user(user)
         do_activate_user(user)
         do_deactivate_user(user)

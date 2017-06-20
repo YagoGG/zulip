@@ -99,7 +99,6 @@ def get_display_recipient_remote_cache(recipient_id, recipient_type, recipient_t
                                             .order_by('id'))
     return [{'email': user_profile.email,
              'full_name': user_profile.full_name,
-             'short_name': user_profile.short_name,
              'id': user_profile.id,
              'is_mirror_dummy': user_profile.is_mirror_dummy} for user_profile in user_profile_list]
 
@@ -1119,7 +1118,6 @@ class Message(AbstractMessage):
             sender_email      = self.sender.email,
             sender_realm_str  = self.sender.realm.string_id,
             sender_full_name  = self.sender.full_name,
-            sender_short_name = self.sender.short_name,
             sending_client    = self.sending_client.name,
             type              = self.recipient.type_name(),
             recipient         = get_display_recipient(self.recipient),
@@ -1148,7 +1146,6 @@ class Message(AbstractMessage):
             'sending_client__name',
             'sender__email',
             'sender__full_name',
-            'sender__short_name',
             'sender__realm__id',
             'sender__realm__string_id',
             'sender__avatar_source',

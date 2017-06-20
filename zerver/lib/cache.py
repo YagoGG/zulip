@@ -325,7 +325,7 @@ def user_profile_by_id_cache_key(user_profile_id):
 # models.py so that python v3 style type annotations can also work.
 
 active_user_dict_fields = [
-    'id', 'full_name', 'short_name', 'email',
+    'id', 'full_name', 'email',
     'avatar_source', 'avatar_version',
     'is_realm_admin', 'is_bot', 'realm_id', 'timezone']  # type: List[str]
 

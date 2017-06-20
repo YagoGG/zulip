@@ -32,10 +32,9 @@ settings.CACHES['default'] = {
 
 def create_users(realm, name_list, bot_type=None):
     # type: (Realm, Iterable[Tuple[Text, Text]], int) -> None
-    user_set = set() # type: Set[Tuple[Text, Text, Text, bool]]
+    user_set = set() # type: Set[Tuple[Text, Text, bool]]
     for full_name, email in name_list:
-        short_name = email_to_username(email)
-        user_set.add((email, full_name, short_name, True))
+        user_set.add((email, full_name, True))
     tos_version = settings.TOS_VERSION if bot_type is None else None
     bulk_create_users(realm, user_set, bot_type=bot_type, tos_version=tos_version)
 
