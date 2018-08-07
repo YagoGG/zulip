@@ -5,6 +5,7 @@
 * [Render a message](/api/render-message)
 * [Upload a file](/api/upload-file)
 * [Add a reaction](/api/add-reaction)
+* [Remove a reaction](/api/remove-reaction)
 
 #### Streams
 

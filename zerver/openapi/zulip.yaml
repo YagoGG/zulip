@@ -850,6 +850,63 @@ paths:
                         "msg": "Reaction already exists.",
                         "result": "error"
                     }
+    delete:
+      description: Remove an emoji reaction from a message.
+      parameters:
+      - name: message_id
+        in: path
+        description: The ID of the message where the reaction is located.
+        schema:
+          type: integer
+        example: 42
+      - name: emoji_name
+        in: query
+        description: The name of the emoji that should be removed.
+        schema:
+          type: string
+        example: thumbs_up
+      - name: emoji_code
+        in: query
+        description: The code of the emoji that should be removed.
+        schema:
+          type: string
+        example: 1f44d
+      - name: reaction_type
+        in: query
+        description: The type of emoji to be used. `unicode_emoji` is for
+          emojis defined in the Unicode set, `realm_emoji` for custom emoji
+          created by users in the realm, and `zulip_extra_emoji` are built-in
+          emojis created by Zulip.
+        schema:
+          type: string
+          enum:
+          - unicode_emoji
+          - realm_emoji
+          - zulip_extra_emoji
+          default: unicode_emoji
+        example: realm_emoji
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonSuccess'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/CodedError'
+                - example:
+                    {
+                        "code": "BAD_REQUEST",
+                        "msg": "Reaction doesn't exist.",
+                        "result": "error"
+                    }
   /register:
     post:
       description: This powerful endpoint can be used to register a Zulip
