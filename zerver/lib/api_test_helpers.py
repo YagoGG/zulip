@@ -390,6 +390,23 @@ def test_update_message_edit_permission_error(client, nonadmin_client):
     fixture = FIXTURES['update-message-edit-permission-error']
     test_against_fixture(result, fixture)
 
+def add_reaction(client, message_id):
+    # type: (Client, int) -> str
+
+    # {code_example|start}
+    # Add the "thumbs_up" emoji reaction to the message with ID "message_id"
+    request = {
+        'message_id': message_id,
+        'emoji_name': 'thumbs_up',
+        'emoji_code': '1f44d',
+        'emoji_type': 'unicode_emoji'
+    }
+    result = client.add_reaction(request)
+    # {code_example|end}
+
+    validate_against_openapi_schema(result, '/messages/{message_id}/reactions',
+                                    'post', '200')
+
 def register_queue(client):
     # type: (Client) -> str
 
@@ -468,6 +485,7 @@ TEST_FUNCTIONS = {
     '/messages/render:post': render_message,
     '/messages:post': send_message,
     '/messages/{message_id}:patch': update_message,
+    '/messages/{message_id}/reactions:post': add_reaction,
     '/get_stream_id:get': get_stream_id,
     'get-subscribed-streams': list_subscriptions,
     '/streams:get': get_streams,
@@ -535,6 +553,7 @@ def test_messages(client, nonadmin_client):
     render_message(client)
     message_id = send_message(client)
     update_message(client, message_id)
+    add_reaction(client, message_id)
 
     test_nonexistent_stream_error(client)
     test_private_message_invalid_recipient(client)

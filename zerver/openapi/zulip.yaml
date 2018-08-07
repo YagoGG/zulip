@@ -790,6 +790,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NonExistingStreamError'
+  /messages/{message_id}/reactions:
+    post:
+      description: Attach an emoji reaction to a message.
+      parameters:
+      - name: message_id
+        in: path
+        description: The ID of the message where the reaction should be placed.
+        schema:
+          type: integer
+        example: 42
+        required: true
+      - name: emoji_name
+        in: query
+        description: The name of the emoji that should be put in the reaction.
+        schema:
+          type: string
+        example: thumbs_up
+        required: true
+      - name: emoji_code
+        in: query
+        description: The code of the emoji that should be put in the reaction.
+        schema:
+          type: string
+        example: 1f44d
+      - name: reaction_type
+        in: query
+        description: The type of emoji to be used. `unicode_emoji` is for
+          emojis defined in the Unicode set, `realm_emoji` for custom emoji
+          created by users in the realm, and `zulip_extra_emoji` are built-in
+          emojis created by Zulip.
+        schema:
+          type: string
+          enum:
+          - unicode_emoji
+          - realm_emoji
+          - zulip_extra_emoji
+          default: unicode_emoji
+        example: realm_emoji
+      security:
+      - basicAuth: []
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonSuccess'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/CodedError'
+                - example:
+                    {
+                        "code": "BAD_REQUEST",
+                        "msg": "Reaction already exists.",
+                        "result": "error"
+                    }
   /register:
     post:
       description: This powerful endpoint can be used to register a Zulip
